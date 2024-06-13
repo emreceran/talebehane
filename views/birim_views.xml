@@ -1,0 +1,284 @@
+<odoo>
+    <!-- Form view for İl -->
+    <record id="view_il_form" model="ir.ui.view">
+        <field name="name">il.form</field>
+        <field name="model">talebehane.il</field>
+        <field name="arch" type="xml">
+            <form string="İl">
+                <header>
+                    <button name="action_view_users" type="object" class="oe_stat_button" icon="fa-user">
+                        <field name="user_count" widget="statinfo" string="Öğrenciler"/>
+                    </button>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="manager_id"/>
+                    </group>
+                    <notebook>
+                        <page string="İlçeler">
+                            <field name="ilce_ids">
+                                <tree string="İlçeler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Liseler">
+                            <field name="lise_ids">
+                                <tree string="Liseler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view for İlçe -->
+    <record id="view_ilce_form" model="ir.ui.view">
+        <field name="name">ilce.form</field>
+        <field name="model">talebehane.ilce</field>
+        <field name="arch" type="xml">
+            <form string="İlçe">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="il_id"/>
+                        <field name="manager_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Liseler">
+                            <field name="lise_ids">
+                                <tree string="Liseler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view for Lise -->
+    <record id="view_lise_form" model="ir.ui.view">
+        <field name="name">lise.form</field>
+        <field name="model">talebehane.lise</field>
+        <field name="arch" type="xml">
+            <form string="Lise">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="il_id"/>
+                        <field name="ilce_id" attrs="{'invisible': [('il_id', '=', False)]}"/>
+                        <field name="manager_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree views for each model -->
+    <record id="view_il_tree" model="ir.ui.view">
+        <field name="name">il.tree</field>
+        <field name="model">talebehane.il</field>
+        <field name="arch" type="xml">
+            <tree string="İller">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ilce_tree" model="ir.ui.view">
+        <field name="name">ilce.tree</field>
+        <field name="model">talebehane.ilce</field>
+        <field name="arch" type="xml">
+            <tree string="İlçeler">
+                <field name="name"/>
+                <field name="il_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_lise_tree" model="ir.ui.view">
+        <field name="name">lise.tree</field>
+        <field name="model">talebehane.lise</field>
+        <field name="arch" type="xml">
+            <tree string="Liseler">
+                <field name="name"/>
+                <field name="il_id"/>
+                <field name="ilce_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions for each model -->
+    <record id="action_il" model="ir.actions.act_window">
+        <field name="name">İller</field>
+        <field name="res_model">talebehane.il</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_il_tree"/>
+    </record>
+
+    <record id="action_ilce" model="ir.actions.act_window">
+        <field name="name">İlçeler</field>
+        <field name="res_model">talebehane.ilce</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ilce_tree"/>
+    </record>
+
+    <record id="action_lise" model="ir.actions.act_window">
+        <field name="name">Liseler</field>
+        <field name="res_model">talebehane.lise</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_lise_tree"/>
+    </record>
+
+    <!--    Üniversite, Bölüm, Fakülte-->
+    <!-- Form view for uni -->
+    <record id="view_uni_form" model="ir.ui.view">
+        <field name="name">uni.form</field>
+        <field name="model">talebehane.uni</field>
+        <field name="arch" type="xml">
+            <form string="uni">
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+
+                    </group>
+                    <notebook>
+                        <page string="Fakülteler">
+                            <field name="fak_ids">
+                                <tree string="Fakülteler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Bölümler">
+                            <field name="bolum_ids">
+                                <tree string="Bölümler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view for Fakülte -->
+    <record id="view_fak_form" model="ir.ui.view">
+        <field name="name">fak.form</field>
+        <field name="model">talebehane.fak</field>
+        <field name="arch" type="xml">
+            <form string="Fakülte">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="uni_id"/>
+
+                    </group>
+                    <notebook>
+                        <page string="Bölümler">
+                            <field name="bolum_ids">
+                                <tree string="Bölümler">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view for bolum -->
+    <record id="view_bolum_form" model="ir.ui.view">
+        <field name="name">bolum.form</field>
+        <field name="model">talebehane.bolum</field>
+        <field name="arch" type="xml">
+            <form string="bolum">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="uni_id"/>
+                        <field name="fak_id" attrs="{'invisible': [('uni_id', '=', False)]}"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree views for each model -->
+    <record id="view_uni_tree" model="ir.ui.view">
+        <field name="name">uni.tree</field>
+        <field name="model">talebehane.uni</field>
+        <field name="arch" type="xml">
+            <tree string="Üniversiteler">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fak_tree" model="ir.ui.view">
+        <field name="name">fak.tree</field>
+        <field name="model">talebehane.fak</field>
+        <field name="arch" type="xml">
+            <tree string="Fakülteler">
+                <field name="name"/>
+                <field name="uni_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_bolum_tree" model="ir.ui.view">
+        <field name="name">bolum.tree</field>
+        <field name="model">talebehane.bolum</field>
+        <field name="arch" type="xml">
+            <tree string="Bölümler">
+                <field name="name"/>
+                <field name="uni_id"/>
+                <field name="fak_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions for each model -->
+    <record id="action_uni" model="ir.actions.act_window">
+        <field name="name">Üniversiteler</field>
+        <field name="res_model">talebehane.uni</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_uni_tree"/>
+    </record>
+
+    <record id="action_fak" model="ir.actions.act_window">
+        <field name="name">Fakülteler</field>
+        <field name="res_model">talebehane.fak</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_fak_tree"/>
+    </record>
+
+    <record id="action_bolum" model="ir.actions.act_window">
+        <field name="name">Bölümler</field>
+        <field name="res_model">talebehane.bolum</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_bolum_tree"/>
+    </record>
+
+
+
+    <!-- Menu items -->
+    <menuitem id="menu_talebehane_root" name="Talebehane" sequence="1"/>
+
+    <menuitem id="menu_talebehane_il" name="İller" parent="menu_talebehane_root" action="action_il" sequence="2"/>
+    <menuitem id="menu_talebehane_ilce" name="İlçeler" parent="menu_talebehane_root" action="action_ilce" sequence="3"/>
+    <menuitem id="menu_talebehane_lise" name="Liseler" parent="menu_talebehane_root" action="action_lise" sequence="4"/>
+    <menuitem id="menu_talebehane_uni" name="Üniversiteler" parent="menu_talebehane_root" action="action_uni" sequence="5"/>
+    <menuitem id="menu_talebehane_fak" name="Fakülteler" parent="menu_talebehane_root" action="action_fak" sequence="6"/>
+    <menuitem id="menu_talebehane_bolum" name="Bölümler" parent="menu_talebehane_root" action="action_bolum" sequence="7"/>
+</odoo>

@@ -1,0 +1,66 @@
+<odoo>
+
+    <record id="view_users_form_inherit_talebehane" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.talebehane</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_simple_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="il_id" string="İl"/>
+                <field name="ilce_id" />
+                <field name="adres" />
+                <field name="birth_date" />
+                <field name="birth_place" />
+                <field name="school_email" />
+                <field name="twitter_account" />
+                <field name="facebook_account" />
+                <field name="instagram_account" />
+                <field name="linkedin_account" />
+                <field name="uni_id" />
+                <field name="fak_id" />
+                <field name="bolum_id" />
+                <field name="nationality_id" />
+                <field name="tc_kimlik_no" />
+                <field name="gender" />
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree view for Users -->
+    <record id="view_users_tree" model="ir.ui.view">
+        <field name="name">res.users.tree</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <tree string="Kullanıcılar">
+                <field name="name"/>
+                <field name="login"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="il_id" string="İl"/>
+
+                <field name="birth_date" />
+
+
+                <field name="uni_id" />
+                <field name="fak_id" />
+                <field name="bolum_id" />
+                <field name="nationality_id" />
+                <field name="tc_kimlik_no" />
+                <field name="gender" />
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Users -->
+    <record id="action_users" model="ir.actions.act_window">
+        <field name="name">Kullanıcılar</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_users_tree"/>
+    </record>
+
+    <!-- Menu item for Users -->
+    <menuitem id="menu_talebehane_users" name="Kullanıcılar" parent="menu_talebehane_root" action="action_users" sequence="5"/>
+</odoo>

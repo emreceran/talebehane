@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_talebehane_il,access_talebehane_il,model_talebehane_il,,1,1,1,1
+access_talebehane_ilce,access_talebehane_ilce,model_talebehane_ilce,,1,1,1,1
+access_talebehane_lise,access_talebehane_lise,model_talebehane_lise,,1,1,1,1
+
+access_talebehane_uni,access_talebehane_uni,model_talebehane_uni,,1,1,1,1
+access_talebehane_fak,access_talebehane_fak,model_talebehane_fak,,1,1,1,1
+access_talebehane_bolum,access_talebehane_bolum,model_talebehane_bolum,,1,1,1,1
+

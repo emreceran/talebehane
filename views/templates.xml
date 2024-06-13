@@ -1,0 +1,293 @@
+<odoo>
+    <template id="portal_my_profile_menu" inherit_id="portal.user_dropdown">
+        <xpath expr="//div[@id='o_logout_divider']" position="before">
+            <a t-attf-href="/profile/user/#{request.env.user.id}" role="menuitem" class="dropdown-item ps-3">
+                <i class="fa fa-fw fa-user me-1 small text-muted"/> Profil
+            </a>
+        </xpath>
+    </template>
+
+    <template id="user_profile_edit_content_inherit" inherit_id="website_profile.user_profile_edit_content">
+
+        <xpath expr="//label[@for='user_email']/parent::div" position="replace">
+            <!-- Okul Email alanını ekle -->
+
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label mb-1 text-primary" for="user_email"><span class="fw-bold">Email</span></label>
+                        <input type="text" class="form-control" name="email" id="user_email" required="True" t-attf-value="#{user.partner_id.email}"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="school_email" class="col-form-label">Okul Email</label>
+                        <input type="email" name="school_email" id="school_email" class="form-control" t-att-value="user.school_email" placeholder="isim@talebehane.com"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+
+
+
+
+        <!-- Country alanını kaldır -->
+
+        <xpath expr="//label[@for='user_website']/parent::div" position="replace">
+
+        </xpath>
+        <xpath expr="//input[@id='user_city']/parent::div/parent::div" position="replace">
+
+
+            <!-- Okul Email alanını ekle !!YUKARIDA ÇÖZDÜK!!-->
+
+            <!--            <div class="mb-3 field-school-email">-->
+            <!--                <label for="school_email" class="col-form-label">Okul Email</label>-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col-md-6">-->
+            <!--                        <input type="email" name="school_email" id="school_email" class="form-control" t-att-value="user.school_email" placeholder="isim@talebehane.com"/>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+            <!-- Phone alanını ekle -->
+            <!--            <div class="mb-3 row">-->
+            <!--                <div class="col-md-6">-->
+            <!--                    <label for="phone" class="col-form-label">Telefon Numaarası</label>-->
+            <!--                    <input type="tel" name="phone" id="phone" class="form-control" t-att-value="user.phone" placeholder="5XX XXX XX XX" pattern="[0-9]*" inputmode="numeric" oninput="validatePhoneInput(this)" maxlength="10"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <!--            <script>-->
+            <!--                function validatePhoneInput(input) {-->
+            <!--                input.value = input.value.replace(/\D/g, '');-->
+            <!--                }-->
+            <!--            </script>-->
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="phone" class="col-form-label">Telefon Numarası</label>
+                    <input type="tel" name="phone" id="phone" class="form-control" t-att-value="user.phone" placeholder="5XX XXX XX XX" pattern="5[0-9]{9}" inputmode="numeric" oninput="validatePhoneInput(this)" maxlength="10" required="True"/>
+                    <small id="phoneHelp" class="form-text text-muted">Başında "0" olmadan ve boşluk bırakmadan yazınız !</small>
+                </div>
+            </div>
+
+            <script>
+                function validatePhoneInput(input) {
+                input.value = input.value.replace(/[^0-9]/g, '');
+                input.setCustomValidity("");
+                if (input.value.length > 0 &amp;&amp; input.value.charAt(0) !== '5') {
+                input.setCustomValidity("Telefon numarası 5 ile başlamalıdır.");
+                } else if (input.value.length > 0 &amp;&amp; input.value.length !== 10) {
+                input.setCustomValidity("Telefon numarası 10 haneli olmalıdır.");
+                }
+                }
+            </script>
+
+
+
+
+
+
+            <!-- Cinsiyet alanını ekle -->
+
+            <div class="mb-3 field-gender">
+                <label class="col-form-label">Cinsiyet</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="gender_male" t-att-value="'male'" t-att-checked="user.gender == 'male'"/>
+                        <label class="form-check-label" for="gender_male">Erkek</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="gender_female" t-att-value="'female'" t-att-checked="user.gender == 'female'"/>
+                        <label class="form-check-label" for="gender_female">Kadın</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- İl ve İlçe alanlarını aynı satıra yerleştir -->
+
+            <div class="mb-3 row">
+                <div t-if="error_message" class="alert alert-danger" role="alert">
+                    <div class="col-lg-12">
+                        <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br/></t>
+                    </div>
+                </div>
+                <div class="col-md-6 #{error.get('il_id') and 'o_has_error' or ''}">
+                    <label for="il_id" class="col-form-label">İl</label>
+                    <select name="il_id" id="il_id" class="form-control #{error.get('il_id') and 'is-invalid' or ''}" required="True">
+                        <option t-att-value="False">İl Seçin</option>
+                        <t t-foreach="ils" t-as="il">
+                            <option t-att-value="il.id" t-esc="il.name" t-att-selected="user.il_id.id == il.id"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-6 #{error.get('ilce_id') and 'o_has_error' or ''}">
+                    <label for="ilce_id" class="col-form-label">İlçe</label>
+                    <select name="ilce_id" id="ilce_id" class="form-control #{error.get('ilce_id') and 'is-invalid' or ''}" required="True" data-selected="user.ilce_id.id">
+                        <option t-att-value="False">İlçe Seçin</option>
+                        <t t-foreach="ilces" t-as="ilce">
+                            <option t-att-value="ilce.id" t-esc="ilce.name" t-att-selected="user.ilce_id.id == ilce.id"/>
+                        </t>
+                    </select>
+                </div>
+            </div>
+
+
+
+
+            <div class="mb-3 row">
+                <div class="col-md-12">
+                    <label for="adres" class="col-form-label">Adres Satırı</label>
+                    <input type="char" name="adres" id="adres" class="form-control" t-att-value="user.adres" placeholder="..."/>
+                </div>
+            </div>
+
+
+
+        </xpath>
+
+        <xpath expr="//select[@name='country']/parent::div/parent::div" position="replace">
+
+
+            <!-- Uyruk ve Tc Kimlik No alanlarını aynı satıra yerleştir -->
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="nationality_id" class="col-form-label">Uyruk</label>
+                    <select name="nationality_id" id="nationality_id" class="form-control">
+                        <t t-set="default_nationality" t-value="'tr'"/> <!-- Varsayılan değer olarak 'TR' (Türkiye) -->
+                        <option t-att-value="False">Uyruk Seçin</option>
+                        <!-- Türkiye'yi özel olarak ekle -->
+                        <option t-att-value="country_tr.id"
+                                t-esc="country_tr.name"
+                                t-att-selected="user.country_id.id == country_tr.id or (not user.country_id and country_tr.code == default_nationality)"
+                                t-if="country_tr"/>
+                        <!-- Diğer ülkeleri ekle -->
+                        <t t-foreach="countries" t-as="country">
+                            <option t-att-value="country.id"
+                                    t-esc="country.name"
+                                    t-att-selected="user.country_id.id == country.id or (not user.country_id and country.code == default_nationality)"
+                                    t-if="country.code != 'TR'"/> <!-- Türkiye dışındaki ülkeler -->
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="tc_kimlik_no" class="col-form-label">Tc Kimlik No</label>
+                    <input type="text" name="tc_kimlik_no" id="tc_kimlik_no" class="form-control" t-att-value="user.tc_kimlik_no" placeholder="11 haneli TC Kimlik Numaranızı giriniz"/>
+                </div>
+            </div>
+
+
+            <!-- Doğum Günü alanını ekle -->
+            <!--            <div class="mb-3 field-dob">-->
+            <!--                <label for="birth_date" class="col-form-label">Doğum Tarihi</label>-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col-md-6">-->
+            <!--                        <input type="date" name="birth_date" id="birth_date" class="form-control" t-att-value="user.birth_date"/>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <!-- Doğum Günü ve Doğum Yeri alanlarını aynı satıra yerleştir -->
+
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="birth_date" class="col-form-label">Doğum Tarihi</label>
+                    <input type="date" name="birth_date" id="birth_date" class="form-control" t-att-value="user.birth_date"/>
+                </div>
+                <div class="col-md-6">
+                    <label for="il_id" class="col-form-label">Doğum Yeri</label>
+                    <select name="il_id" id="il_id" class="form-control">
+                        <option t-att-value="False">Doğum Yeri Seçin</option>
+                        <t t-foreach="ils" t-as="il">
+                            <option t-att-value="il.id" t-esc="il.name" t-att-selected="user.il_id and user.il_id.id == il.id"/>
+                        </t>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Uyruk alanını ekle !!YUKARIDA ÇÖZDÜK!! -->
+            <!--            <div class="mb-3 field-nationality">-->
+            <!--                <label for="nationality_id" class="col-form-label">Uyruk</label>-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col-md-6">-->
+            <!--                        <select name="nationality_id" id="nationality_id" class="form-control">-->
+            <!--                            <t t-set="default_nationality" t-value="'tr'"/> &lt;!&ndash; Varsayılan değer olarak 'TR' (Türkiye) &ndash;&gt;-->
+            <!--                            <option t-att-value="False">Uyruk Seçin</option>-->
+            <!--                            <t t-foreach="countries" t-as="country">-->
+            <!--                                <option t-att-value="country.id"-->
+            <!--                                        t-esc="country.name"-->
+            <!--                                        t-att-selected="user.country_id.id == country.id or (not user.country_id and country.code == default_nationality)"/>-->
+            <!--                            </t>-->
+            <!--                        </select>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+
+            <!-- Twitter ve Instagram alanlarını aynı satıra yerleştir -->
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="twitter_account" class="col-form-label">Twitter</label>
+                    <input type="text" name="twitter_account" id="twitter_account" class="form-control" t-att-value="user.twitter_account" placeholder="Twitter Hesabınızı Girin"/>
+                </div>
+                <div class="col-md-6">
+                    <label for="instagram_account" class="col-form-label">Instagram</label>
+                    <input type="text" name="instagram_account" id="instagram_account" class="form-control" t-att-value="user.instagram_account" placeholder="Instagram Hesabınızı Girin"/>
+                </div>
+            </div>
+
+            <!-- Facebook ve LinkedIn alanlarını aynı satıra yerleştir -->
+            <div class="mb-3 row">
+                <div class="col-md-6">
+                    <label for="facebook_account" class="col-form-label">Facebook</label>
+                    <input type="text" name="facebook_account" id="facebook_account" class="form-control" t-att-value="user.facebook_account" placeholder="Facebook Hesabınızı Girin"/>
+                </div>
+                <div class="col-md-6">
+                    <label for="linkedin_account" class="col-form-label">LinkedIn</label>
+                    <input type="text" name="linkedin_account" id="linkedin_account" class="form-control" t-att-value="user.linkedin_account" placeholder="LinkedIn Hesabınızı Girin"/>
+                </div>
+            </div>
+
+
+            <!-- Eğitim Bilgileri -->
+            <div class="mb-3 row">
+                <div class="col-md-6 #{error.get('uni_id') and 'o_has_error' or ''}">
+                    <label for="uni_id" class="col-form-label">Üniversite</label>
+                    <select name="uni_id" id="uni_id" class="form-control #{error.get('uni_id') and 'is-invalid' or ''}" required="True">
+                        <option t-att-value="False">Üniversite Seçin</option>
+                        <t t-foreach="unis" t-as="uni">
+                            <option t-att-value="uni.id" t-esc="uni.name" t-att-selected="user.uni_id.id == uni.id"/>
+                        </t>
+                    </select>
+                </div>
+                <div class="col-md-6 #{error.get('fak_id') and 'o_has_error' or ''}">
+                    <label for="fak_id" class="col-form-label">Fakülte</label>
+                    <select name="fak_id" id="fak_id" class="form-control #{error.get('fak_id') and 'is-invalid' or ''}" required="True" t-att-data-selected="user.fak_id.id">
+                        <option t-att-value="False">Fakülte Seçin</option>
+                        <t t-foreach="faks" t-as="fak">
+                            <option t-att-value="fak.id" t-esc="fak.name" t-att-selected="user.fak_id.id == fak.id"/>
+                        </t>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-md-6 #{error.get('bolum_id') and 'o_has_error' or ''}">
+                    <label for="bolum_id" class="col-form-label">Bölüm</label>
+                    <select name="bolum_id" id="bolum_id" class="form-control #{error.get('bolum_id') and 'is-invalid' or ''}" required="True" t-att-data-selected="user.bolum_id.id">
+                        <option t-att-value="False">Bölüm Seçin</option>
+                        <t t-foreach="bolumler" t-as="bolum">
+                            <option t-att-value="bolum.id" t-esc="bolum.name" t-att-selected="user.bolum_id.id == bolum.id"/>
+                        </t>
+                    </select>
+                </div>
+            </div>
+
+
+        </xpath>
+    </template>
+</odoo>
+

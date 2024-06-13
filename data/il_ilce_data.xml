@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- İl Verileri -->
+    <record id="il_istanbul" model="talebehane.il">
+        <field name="id">34</field>
+        <field name="name">İstanbul</field>
+    </record>
+    <record id="il_ankara" model="talebehane.il">
+        <field name="id">6</field>
+        <field name="name">Ankara</field>
+    </record>
+
+    <!-- İlçe Verileri -->
+    <record id="ilce_besiktas" model="talebehane.ilce">
+        <field name="id">1</field>
+        <field name="name">Beşiktaş</field>
+        <field name="il_id" ref="il_istanbul"/>
+    </record>
+    <record id="ilce_kadikoy" model="talebehane.ilce">
+        <field name="id">2</field>
+        <field name="name">Kadıköy</field>
+        <field name="il_id" ref="il_istanbul"/>
+    </record>
+    <record id="ilce_cankaya" model="talebehane.ilce">
+        <field name="id">3</field>
+        <field name="name">Çankaya</field>
+        <field name="il_id" ref="il_ankara"/>
+    </record>
+    <record id="ilce_kecioren" model="talebehane.ilce">
+        <field name="id">4</field>
+        <field name="name">Keçiören</field>
+        <field name="il_id" ref="il_ankara"/>
+    </record>
+
+    <!-- Üniversite Verileri -->
+    <record id="uni_bogazici" model="talebehane.uni">
+        <field name="id">1</field>
+        <field name="name">Boğaziçi Üniversitesi</field>
+    </record>
+    <record id="uni_odtu" model="talebehane.uni">
+        <field name="id">2</field>
+        <field name="name">ODTÜ</field>
+    </record>
+
+    <!-- Fakülte Verileri -->
+    <record id="fak_fen_edebiyat" model="talebehane.fak">
+        <field name="id">1</field>
+        <field name="name">Fen-Edebiyat Fakültesi</field>
+        <field name="uni_id" ref="uni_bogazici"/>
+    </record>
+    <record id="fak_muhendislik" model="talebehane.fak">
+        <field name="id">2</field>
+        <field name="name">Mühendislik Fakültesi</field>
+        <field name="uni_id" ref="uni_odtu"/>
+    </record>
+
+    <!-- Bölüm Verileri -->
+    <record id="bolum_biyoloji" model="talebehane.bolum">
+        <field name="id">1</field>
+        <field name="name">Biyoloji</field>
+        <field name="fak_id" ref="fak_fen_edebiyat"/>
+        <field name="uni_id" ref="uni_bogazici"/>
+    </record>
+    <record id="bolum_bilgisayar" model="talebehane.bolum">
+        <field name="id">2</field>
+        <field name="name">Bilgisayar Mühendisliği</field>
+        <field name="fak_id" ref="fak_muhendislik"/>
+        <field name="uni_id" ref="uni_odtu"/>
+    </record>
+</odoo>
