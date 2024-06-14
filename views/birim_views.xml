@@ -147,6 +147,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="il_id"/>
 
                     </group>
                     <notebook>
@@ -221,6 +222,7 @@
         <field name="arch" type="xml">
             <tree string="Üniversiteler">
                 <field name="name"/>
+                <field name="il_id"/>
             </tree>
         </field>
     </record>

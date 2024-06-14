@@ -5,6 +5,7 @@ class Il(models.Model):
     _description = 'Il'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
     ilce_ids = fields.One2many('talebehane.ilce', 'il_id', string='İlçeler')
     lise_ids = fields.One2many('talebehane.lise', 'il_id', string='Liseler')
     manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group
@@ -32,6 +33,8 @@ class Ilce(models.Model):
     _description = 'Ilce'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
+
     il_id = fields.Many2one('talebehane.il', string='İl', required=True)
     lise_ids = fields.One2many('talebehane.lise', 'ilce_id', string='Liseler')
     manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group
@@ -60,6 +63,8 @@ class Lise(models.Model):
     _description = 'Lise'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
+
     il_id = fields.Many2one('talebehane.il', string='İl', required=True)
     ilce_id = fields.Many2one('talebehane.ilce', string='İlçe')
     manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group
@@ -92,6 +97,9 @@ class Uni(models.Model):
     _description = 'Üniversite'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
+    il_id = fields.Many2one('talebehane.il')
+
     fak_ids = fields.One2many('talebehane.fak', 'uni_id', string='Fakülteler')
     bolum_ids = fields.One2many('talebehane.bolum', 'uni_id', string='Bölümler')
     # manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group
@@ -119,6 +127,8 @@ class Fak(models.Model):
     _description = 'Fakülte'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
+
     uni_id = fields.Many2one('talebehane.uni', string='Üniversite', required=True)
     bolum_ids = fields.One2many('talebehane.bolum', 'fak_id', string='Bölümler')
     # manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group
@@ -147,6 +157,8 @@ class Bolum(models.Model):
     _description = 'Bölüm'
 
     name = fields.Char(string='Name', required=True)
+    status = fields.Boolean('Active', default=True)
+
     uni_id = fields.Many2one('talebehane.uni', string='Üniversite', required=True)
     fak_id = fields.Many2one('talebehane.fak', string='Fakülte')
     # manager_id = fields.Many2one('res.users', string='Yönetici', domain="[('groups_id', 'in', [1])]")  # 1 is the ID of the internal user group

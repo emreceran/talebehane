@@ -254,11 +254,16 @@
 
             <!-- Eğitim Bilgileri -->
             <div class="mb-3 row">
+                 <div t-if="error_message" class="alert alert-danger" role="alert">
+                    <div class="col-lg-12">
+                        <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br/></t>
+                    </div>
+                </div>
                 <div class="col-md-6 #{error.get('uni_id') and 'o_has_error' or ''}">
                     <label for="uni_id" class="col-form-label">Üniversite</label>
                     <select name="uni_id" id="uni_id" class="form-control #{error.get('uni_id') and 'is-invalid' or ''}" required="True">
                         <option t-att-value="False">Üniversite Seçin</option>
-                        <t t-foreach="unis" t-as="uni">
+                        <t t-foreach="unis or []" t-as="uni">
                             <option t-att-value="uni.id" t-esc="uni.name" t-att-selected="user.uni_id.id == uni.id"/>
                         </t>
                     </select>

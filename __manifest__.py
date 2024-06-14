@@ -30,7 +30,7 @@
         'views/birim_views.xml',
         # 'views/signup_template.xml',
         'views/res_users_views.xml',
-        'data/il_ilce_data.xml',
+        # 'data/il_ilce_data.xml',
     ],
     'assets': {
         'web.assets_frontend': [
